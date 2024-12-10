@@ -11,10 +11,10 @@ parameters:
       default: "SecretsManager"
       description:
         The secret backend to use which holds your API credentials. Accepted values
-        are [SecretsManager, ParamaterStore].
+        are [SecretsManager, ParameterStore].
       allowedValues:
         - "SecretsManager"
-        - "ParamaterStore"
+        - "ParameterStore"
   - AWSRegion:
       type: string
       default: "us-east-1"
@@ -32,19 +32,19 @@ parameters:
       type: string
       default: " "
       description:
-        (Required if using ParamaterStore) SSM Parameter Store name that contains the
+        (Required if using ParameterStore) SSM Parameter Store name that contains the
         Falcon Cloud Region for the Falcon API credentials.
   - SSMFalconClientId:
       type: string
       default: " "
       description:
-        (Required if using ParamaterStore) SSM Parameter Store name that contains the
+        (Required if using ParameterStore) SSM Parameter Store name that contains the
         Falcon Client Id for the Falcon API credentials.
   - SSMFalconClientSecret:
       type: string
       default: " "
       description:
-        (Required if using ParamaterStore) SSM Parameter Store name that contains the
+        (Required if using ParameterStore) SSM Parameter Store name that contains the
         Falcon Client Secret for the Falcon API credentials.
   ### Installation Parameters ###
   - SensorVersionDecrement:
