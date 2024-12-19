@@ -1,0 +1,120 @@
+name: crowdstrike-falcon-install-windows
+description: Deploy and Prepare CrowdStrike Falcon on Windows for Image Builder
+schemaVersion: 1.0
+parameters:
+  ### Authentication Parameters ###
+  - SecretStorageMethod:
+      type: string
+      default: "ParameterStore"
+      description:
+        The secret backend to use which holds your API credentials. Accepted values
+        are [SecretsManager, ParameterStore].
+      allowedValues:
+        - "SecretsManager"
+        - "ParameterStore"
+  - SecretsManagerSecretName:
+      type: string
+      default: " "
+      description:
+        (Required if using SecretsManager) The name of the secret in Secrets Manager that contains the
+        Falcon API credentials.
+  - SSMFalconCloud:
+      type: string
+      default: " "
+      description:
+        (Required if using ParameterStore) SSM Parameter Store name that contains the
+        Falcon Cloud Region for the Falcon API credentials.
+  - SSMFalconClientId:
+      type: string
+      default: " "
+      description:
+        (Required if using ParameterStore) SSM Parameter Store name that contains the
+        Falcon Client Id for the Falcon API credentials.
+  - SSMFalconClientSecret:
+      type: string
+      default: " "
+      description:
+        (Required if using ParameterStore) SSM Parameter Store name that contains the
+        Falcon Client Secret for the Falcon API credentials.
+  ### Installation Parameters ###
+  - ProvisioningToken:
+      type: string
+      default: " "
+      description: (Optional) The provisioning/installation token to use for installing the sensor.
+  - SensorUpdatePolicyName:
+      type: string
+      default: " "
+      description: (Optional) The name of the sensor update policy to use for retrieving the sensor version.
+  - Tags:
+      type: string
+      default: " "
+      description: (Optional) A comma-separated list of tags to apply to the sensor.
+  - ProxyHost:
+      type: string
+      default: " "
+      description: (Optional) The proxy host for the sensor to use when communicating with CrowdStrike.
+  - ProxyPort:
+      type: string
+      default: " "
+      description: (Optional) The proxy port for the sensor to use when communicating with CrowdStrike.
+  - Billing:
+      type: string
+      default: " "
+      description: (Optional) The billing code to use for the sensor. Accepted values are [default, metered].
+
+phases:
+  - name: build
+    steps:
+      - name: DownloadScript
+        action: WebDownload
+        maxAttempts: 3
+        inputs:
+          - source: "https://raw.githubusercontent.com/TheCyberian/aws-ec2-image-builder/refs/heads/main/scripts/deploy-falcon-windows.ps1"
+            destination: "C:\\Windows\\Temp\\deploy-falcon-build.ps1"
+
+      - name: FalconInstall
+        action: ExecutePowerShell
+        inputs:
+          commands:
+            - |
+              cd "C:\\Windows\\Temp\\"
+              
+              .\deploy-falcon-build.ps1 -SecretStorageMethod "{{ SecretStorageMethod }}" `
+              -SecretsManagerSecretName "{{ SecretsManagerSecretName }}" -SSMFalconCloud "{{ SSMFalconCloud }}" `
+              -SSMFalconClientId "{{ SSMFalconClientId }}" -SSMFalconClientSecret "{{ SSMFalconClientSecret }}" `
+              -SensorUpdatePolicyName "{{ SensorUpdatePolicyName }}" -ProvToken "{{ ProvisioningToken }}" `
+              -Tags "{{ Tags }}" -ProxyHost "{{ ProxyHost }}" -ProxyPort "{{ ProxyPort }}" `
+              -Billing "{{ Billing }}"
+              
+  - name: validate
+    steps:
+      - name: EnsureFalconExists
+        action: ExecutePowerShell
+        inputs:
+          commands:
+            - |
+              if (Test-Path -Path "C:\\Program Files\\CrowdStrike") {
+                  Write-Host "Crowdstrike exists."
+              } else {
+                  Write-Host "Crowdstrike does not exist."
+              }
+
+  - name: test
+    steps:
+      - name: EnsureFalconServiceIsRunning
+        action: ExecutePowerShell
+        inputs:
+          commands:
+            - |
+              $serviceName = "CSFalconService"
+
+              try {
+                  $service = Get-Service -Name $serviceName -ErrorAction Stop
+                  if ($service.Status -eq 'Running') {
+                      Write-Host "The service $serviceName is running."
+                  } else {
+                      Write-Host "The service $serviceName is not running."
+                  }
+              } catch {
+                  Write-Host "The service $serviceName does not exist."
+              }
