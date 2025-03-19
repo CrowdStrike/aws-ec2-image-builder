@@ -194,7 +194,7 @@ try {
     if ($ProxyPort) { $scriptArgs += "-ProxyPort '$ProxyPort'" }
     if ($ProxyDisable) { $scriptArgs += "-ProxyDisable" }
     # Add install params to configure VM Template
-    $scriptArgs += "-InstallParams '/install /quiet /noreboot NO_START=1'"
+    $scriptArgs += "-InstallParams '/install /quiet /norestart NO_START=1'"
 
     $scriptCommand = "& '$installScript' $($scriptArgs -join ' ')"
     Write-Log -Message "Executing Falcon sensor installation script..."

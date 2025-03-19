@@ -85,7 +85,7 @@ phases:
         inputs:
           - source: "https://raw.githubusercontent.com/CrowdStrike/aws-ec2-image-builder/v1.2.2/scripts/deploy-falcon-windows.ps1"
             destination: C:\Windows\Temp\deploy-falcon-build.ps1
-          - source: "https://raw.githubusercontent.com/crowdstrike/falcon-scripts/v1.7.2/powershell/install/falcon_windows_install.ps1"
+          - source: "https://raw.githubusercontent.com/crowdstrike/falcon-scripts/v1.7.4/powershell/install/falcon_windows_install.ps1"
             destination: C:\Windows\Temp\falcon-windows-install.ps1
 
       - name: InstallAWScli
