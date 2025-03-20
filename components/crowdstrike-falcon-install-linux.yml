@@ -84,7 +84,7 @@ phases:
         inputs:
           - source: "https://raw.githubusercontent.com/CrowdStrike/aws-ec2-image-builder/v1.2.2/scripts/deploy-falcon-linux.sh"
             destination: "/tmp/deploy-falcon-build.sh"
-          - source: "https://raw.githubusercontent.com/crowdstrike/falcon-scripts/v1.7.1/bash/install/falcon-linux-install.sh"
+          - source: "https://raw.githubusercontent.com/crowdstrike/falcon-scripts/v1.7.4/bash/install/falcon-linux-install.sh"
             destination: "/tmp/falcon-linux-install.sh"
 
       - name: InstallAWScli
