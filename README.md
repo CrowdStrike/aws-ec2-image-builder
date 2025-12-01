@@ -1,12 +1,15 @@
-<p align="center">
-   <img src="https://raw.githubusercontent.com/CrowdStrike/falconpy/main/docs/asset/cs-logo.png" alt="CrowdStrike logo" width="500"/>
-</p>
+![CrowdStrike Logo (Light)](https://raw.githubusercontent.com/CrowdStrike/.github/main/assets/cs-logo-light-mode.png#gh-light-mode-only)
+![CrowdStrike Logo (Dark)](https://raw.githubusercontent.com/CrowdStrike/.github/main/assets/cs-logo-dark-mode.png#gh-dark-mode-only)
 
 # AWS EC2 Image Builder Component for CrowdStrike Falcon Sensor
 
 This repository contains AWS EC2 Image Builder components for Linux and Windows that install and configure the CrowdStrike Falcon sensor, preparing it as a golden image for your AWS environment.
 
 The components automate the installation of the CrowdStrike Falcon sensor on an EC2 instance during the image building process. They're designed to be the final step in your image pipeline to ensure proper configuration and prevent interference from system reboots.
+
+## Demo
+
+[![Demo of Amazon EC2 Image Builder Component](https://play.vidyard.com/8dyNSZr7BozJC5J7wRN9Xf.jpg)](https://vid.crowdstrike.com/watch/8dyNSZr7BozJC5J7wRN9Xf)
 
 ## Table of Contents
 
