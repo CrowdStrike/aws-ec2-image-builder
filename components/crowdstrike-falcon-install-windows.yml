@@ -83,10 +83,14 @@ phases:
         action: WebDownload
         maxAttempts: 3
         inputs:
-          - source: "https://raw.githubusercontent.com/CrowdStrike/aws-ec2-image-builder/v1.2.2/scripts/deploy-falcon-windows.ps1"
+          - source: "https://raw.githubusercontent.com/CrowdStrike/aws-ec2-image-builder/v1.2.4/scripts/deploy-falcon-windows.ps1"
             destination: C:\Windows\Temp\deploy-falcon-build.ps1
+            checksum: "09bea892aaab63173cb7601d50d57653df926389ff9ff3647f0d3a2e538df4fa"
+            algorithm: "SHA256"
           - source: "https://raw.githubusercontent.com/crowdstrike/falcon-scripts/v1.7.4/powershell/install/falcon_windows_install.ps1"
             destination: C:\Windows\Temp\falcon-windows-install.ps1
+            checksum: "c15a2277ef53fc3b3e16341645ba9b5c4ecf72eb81b4f54a9d9461d52e38553d"
+            algorithm: "SHA256"
 
       - name: InstallAWScli
         action: ExecuteDocument
