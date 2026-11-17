@@ -180,25 +180,23 @@ try {
 
     $installScript = "C:\Windows\Temp\falcon-windows-install.ps1"
 
-    $scriptArgs = @(
-        "-FalconClientId '$FalconClientId'"
-        "-FalconClientSecret '$FalconClientSecret'"
-        "-FalconCloud '$FalconCloud'"
-        "-SensorUpdatePolicyName '$SensorUpdatePolicyName'"
-    )
+    $scriptParams = @{
+        FalconClientId         = $FalconClientId
+        FalconClientSecret     = $FalconClientSecret
+        FalconCloud            = $FalconCloud
+        SensorUpdatePolicyName = $SensorUpdatePolicyName
+        InstallParams          = '/install /quiet /norestart NO_START=1'
+    }
 
-    if ($ProvisioningToken) { $scriptArgs += "-ProvToken '$ProvisioningToken'" }
-    if ($ProvisioningWaitTime) { $scriptArgs += "-ProvWaitTime $ProvisioningWaitTime" }
-    if ($Tags) { $scriptArgs += "-Tags '$Tags'" }
-    if ($ProxyHost) { $scriptArgs += "-ProxyHost '$ProxyHost'" }
-    if ($ProxyPort) { $scriptArgs += "-ProxyPort '$ProxyPort'" }
-    if ($ProxyDisable) { $scriptArgs += "-ProxyDisable" }
-    # Add install params to configure VM Template
-    $scriptArgs += "-InstallParams '/install /quiet /norestart NO_START=1'"
+    if ($ProvisioningToken) { $scriptParams.ProvToken = $ProvisioningToken }
+    if ($ProvisioningWaitTime) { $scriptParams.ProvWaitTime = $ProvisioningWaitTime }
+    if ($Tags) { $scriptParams.Tags = $Tags }
+    if ($ProxyHost) { $scriptParams.ProxyHost = $ProxyHost }
+    if ($ProxyPort) { $scriptParams.ProxyPort = $ProxyPort }
+    if ($ProxyDisable) { $scriptParams.ProxyDisable = $true }
 
-    $scriptCommand = "& '$installScript' $($scriptArgs -join ' ')"
     Write-Log -Message "Executing Falcon sensor installation script..."
-    Invoke-Expression $scriptCommand
+    & $installScript @scriptParams
 }
 catch {
     Write-Log -Level "ERROR" -Message "Error during execution: $_"

@@ -82,10 +82,14 @@ phases:
         action: WebDownload
         maxAttempts: 3
         inputs:
-          - source: "https://raw.githubusercontent.com/CrowdStrike/aws-ec2-image-builder/v1.2.2/scripts/deploy-falcon-linux.sh"
+          - source: "https://raw.githubusercontent.com/CrowdStrike/aws-ec2-image-builder/v1.2.4/scripts/deploy-falcon-linux.sh"
             destination: "/tmp/deploy-falcon-build.sh"
+            checksum: "ee4afe9aa5706c9b952c5e1fefd535b5c20dfa39a366277ad4be7d60c22c8da1"
+            algorithm: "SHA256"
           - source: "https://raw.githubusercontent.com/crowdstrike/falcon-scripts/v1.7.4/bash/install/falcon-linux-install.sh"
             destination: "/tmp/falcon-linux-install.sh"
+            checksum: "bf02f335140df8f10869a97c049c72d7c52232f686234aac933de1a152b86227"
+            algorithm: "SHA256"
 
       - name: InstallAWScli
         action: ExecuteDocument
